@@ -40,7 +40,7 @@ const ChatContainer = () => {
 
   if (isMessagesLoading) {
     return (
-      <div className='flex flex-col flex-1 overflow-auto'>
+      <div className='flex flex-col overflow-auto'>
         <ChatHeader />
         <MessageSkeleton />
         <MessageInput />
@@ -49,7 +49,7 @@ const ChatContainer = () => {
   }
 
   return (
-    <div className='flex flex-col flex-1 overflow-auto'>
+    <div className='flex flex-col overflow-auto'>
       <ChatHeader />
 
       <div className='flex-1 space-y-4 p-4 overflow-y-auto'>
@@ -62,7 +62,7 @@ const ChatContainer = () => {
             ref={messageEndRef}
           >
             <div className='chat-image avatar'>
-              <div className='border rounded-full size-10'>
+              <div className='border rounded-full w-1/12 h-1/12'>
                 <img
                   src={
                     message.senderId === authUser._id
