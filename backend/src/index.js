@@ -3,8 +3,6 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
-import path from "path";
-
 import { connectDB } from "./database/db.js";
 import { app, server } from "./lib/socket.js";
 import appRouter from "./routes/index.route.js";
@@ -12,7 +10,6 @@ import appRouter from "./routes/index.route.js";
 dotenv.config();
 
 const PORT = process.env.PORT || 5001;
-const __dirname = path.resolve();
 
 app.use(express.json());
 app.use(cookieParser());
@@ -25,15 +22,9 @@ app.use(
 
 app.use("/api", appRouter);
 
-if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist")));
-
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend", "dist", "index.html"));
-  });
-}
+// 🚀 No frontend serving – frontend is on separate Vercel deployment
 
 server.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`✅ Server running on port ${PORT}`);
   connectDB();
 });
