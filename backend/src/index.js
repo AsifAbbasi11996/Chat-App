@@ -13,9 +13,21 @@ const PORT = process.env.PORT || 5001;
 
 app.use(express.json());
 app.use(cookieParser());
+
+// Read origins from .env and split by comma
+const allowedOrigins = process.env.ORIGIN?.split(",") || [];
+
 app.use(
   cors({
-    origin: process.env.ORIGIN || "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true); // allow non-browser tools (like curl/postman)
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      } else {
+        console.log("❌ Blocked by CORS:", origin);
+        return callback(new Error("Not allowed by CORS"));
+      }
+    },
     credentials: true,
   })
 );

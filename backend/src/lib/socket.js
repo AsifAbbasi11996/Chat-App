@@ -5,9 +5,17 @@ import express from "express";
 const app = express();
 const server = http.createServer(app);
 
+const allowedOrigins = process.env.ORIGIN?.split(",") || [];
+
 const io = new Server(server, {
   cors: {
-    origin: process.env.ORIGIN || "http://localhost:5173",
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Socket CORS not allowed from this origin"));
+      }
+    },
     credentials: true,
   },
 });
