@@ -5,9 +5,10 @@ import { LogOut, MessageSquare, Settings, User } from "lucide-react";
 
 const Navbar = () => {
   const { logout, authUser } = useAuthStore();
+
   return (
     // header ko position fixed dena h
-    <header className="top-0 z-40 bg-base-100/80 backdrop-blur-lg border-b border-base-300 w-full">
+    <header className="fixed top-0 z-40 bg-base-100/80 backdrop-blur-lg border-b border-base-300 w-full">
       <div className="mx-auto px-4 h-16 container">
         <div className="flex justify-between items-center h-full">
           <div className="flex items-center gap-8">
@@ -26,7 +27,7 @@ const Navbar = () => {
             <Link
               to={"/settings"}
               className={`
-              btn btn-sm gap-2 transition-colors
+              btn btn-md gap-2 transition-colors rounded-md
               
               `}
             >
@@ -36,7 +37,7 @@ const Navbar = () => {
 
             {authUser && (
               <>
-                <Link to={"/profile"} className={`btn btn-sm gap-2`}>
+                <Link to={"/profile"} className={`btn btn-md gap-2 rounded-md`}>
                   <User className="size-5" />
                   <span className="sm:inline">Profile</span>
                 </Link>

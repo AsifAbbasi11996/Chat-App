@@ -22,7 +22,7 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="pt-20 h-screen">
+    <div className="pt-20">
       <div className="mx-auto p-4 py-8 max-w-2xl">
         <div className="space-y-8 bg-base-300 p-6 rounded-xl">
           <div className="text-center">
@@ -33,25 +33,27 @@ const ProfilePage = () => {
           {/* avatar upload section */}
 
           <div className="flex flex-col items-center gap-4">
-            <div className="relative">
+            <div className="relative w-32 h-32 sm:w-40 sm:h-40">
               <img
                 src={selectedImg || authUser.profilePic || "/avatar.png"}
                 alt="Profile"
-                className="border-4 rounded-[50%] w-1/3 h-1/3 object-cover"
+                className="w-full h-full rounded-full object-cover border-4 border-primary"
               />
               <label
                 htmlFor="avatar-upload"
                 className={`
-                  absolute bottom-0 right-0 
-                  bg-base-content hover:scale-105
-                  p-2 rounded-full cursor-pointer 
-                  transition-all duration-200
-                  ${
-                    isUpdatingProfile ? "animate-pulse pointer-events-none" : ""
-                  }
-                `}
+        absolute bottom-0 right-0 
+        bg-primary hover:bg-primary-focus 
+        p-2 rounded-full cursor-pointer 
+        shadow-md transition-transform duration-200
+        ${
+          isUpdatingProfile
+            ? "animate-pulse pointer-events-none"
+            : "hover:scale-110"
+        }
+      `}
               >
-                <Camera className="w-5 h-5 text-base-200" />
+                <Camera className="w-5 h-5 text-white" />
                 <input
                   type="file"
                   id="avatar-upload"
@@ -62,7 +64,7 @@ const ProfilePage = () => {
                 />
               </label>
             </div>
-            <p className="text-zinc-400 text-sm">
+            <p className="text-center text-sm text-gray-400">
               {isUpdatingProfile
                 ? "Uploading..."
                 : "Click the camera icon to update your photo"}
