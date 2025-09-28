@@ -20,6 +20,11 @@ app.use(
   })
 );
 
+// Health check route
+app.get("/api", (req, res) => {
+  res.status(200).json({ message: "✅ Backend server is running!" });
+});
+
 app.use("/api", appRouter);
 
 // 🚀 No frontend serving – frontend is on separate Vercel deployment
