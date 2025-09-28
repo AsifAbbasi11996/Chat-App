@@ -2,6 +2,7 @@ import { create } from "zustand";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../lib/axios";
 import { useAuthStore } from "./useAuthStore";
+import { API_URL } from "../../utils/baseUrl";
 
 export const useChatStore = create((set, get) => ({
   messages: [],
@@ -15,7 +16,7 @@ export const useChatStore = create((set, get) => ({
   getUsers: async () => {
     set({ isUsersLoading: true });
     try {
-      const res = await axiosInstance.get("/messages/users");
+      const res = await axiosInstance.get(`${API_URL}/messages/users`);
       if (Array.isArray(res.data)) set({ users: res.data });
     } catch (error) {
       toast.error(error?.response?.data?.message || "Failed to fetch users");
@@ -28,7 +29,7 @@ export const useChatStore = create((set, get) => ({
   getMessages: async (userId) => {
     set({ isMessagesLoading: true });
     try {
-      const res = await axiosInstance.get(`/messages/${userId}`);
+      const res = await axiosInstance.get(`${API_URL}/messages/${userId}`);
       if (Array.isArray(res.data)) set({ messages: res.data });
     } catch (error) {
       toast.error(error?.response?.data?.message || "Failed to fetch messages");
@@ -44,7 +45,7 @@ export const useChatStore = create((set, get) => ({
 
     try {
       const res = await axiosInstance.post(
-        `/messages/send/${selectedUser._id}`,
+        `${API_URL}/messages/send/${selectedUser._id}`,
         messageData
       );
       set({ messages: [...messages, res.data] });

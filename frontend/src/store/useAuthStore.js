@@ -4,9 +4,6 @@ import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 import { API_URL } from "../../utils/baseUrl";
 
-// For development only
-const BASE_URL = `${API_URL}`;
-
 export const useAuthStore = create((set, get) => ({
   authUser: null,
   isSigningUp: false,
@@ -20,7 +17,7 @@ export const useAuthStore = create((set, get) => ({
   checkAuth: async () => {
     set({ isCheckingAuth: true });
     try {
-      const res = await axiosInstance.get("/auth/check");
+      const res = await axiosInstance.get(`${API_URL}/auth/check`);
       set({ authUser: res.data || null });
 
       if (res.data) get().connectSocket();
@@ -36,7 +33,7 @@ export const useAuthStore = create((set, get) => ({
   signup: async (data) => {
     set({ isSigningUp: true });
     try {
-      const res = await axiosInstance.post("/auth/signup", data);
+      const res = await axiosInstance.post(`${API_URL}/auth/signup`, data);
       set({ authUser: res.data });
       toast.success("Account created successfully");
       get().connectSocket();
@@ -51,7 +48,7 @@ export const useAuthStore = create((set, get) => ({
   login: async (data) => {
     set({ isLoggingIn: true });
     try {
-      const res = await axiosInstance.post("/auth/login", data);
+      const res = await axiosInstance.post(`${API_URL}/auth/login`, data);
       set({ authUser: res.data });
       toast.success("Logged in successfully");
       get().connectSocket();
@@ -65,7 +62,7 @@ export const useAuthStore = create((set, get) => ({
   // ✅ Logout user
   logout: async () => {
     try {
-      await axiosInstance.post("/auth/logout");
+      await axiosInstance.post(`${API_URL}/auth/logout`);
       get().disconnectSocket();
       set({ authUser: null });
       toast.success("Logged out successfully");
@@ -78,7 +75,7 @@ export const useAuthStore = create((set, get) => ({
   updateProfile: async (data) => {
     set({ isUpdatingProfile: true });
     try {
-      const res = await axiosInstance.put("/auth/update-pic", data);
+      const res = await axiosInstance.put(`${API_URL}/auth/update-pic`, data);
       set({ authUser: res.data });
       toast.success("Profile updated successfully");
     } catch (error) {
@@ -94,7 +91,7 @@ export const useAuthStore = create((set, get) => ({
     const { authUser, socket } = get();
     if (!authUser || socket?.connected) return;
 
-    const newSocket = io(BASE_URL, {
+    const newSocket = io(API_URL, {
       query: { userId: authUser._id },
       transports: ["websocket"],
     });
